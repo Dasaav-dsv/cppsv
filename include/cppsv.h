@@ -123,11 +123,11 @@ namespace cppsv {
         // Try to convert the string into another representation
         // T can be constructed from an iterator range over the characters
         template <typename T>
-        consteval std::optional<T> as() const noexcept {
+        consteval T as() const noexcept {
             if constexpr (std::is_integral_v<T>)
-                return to_integer(std::begin(this->string), std::end(this->string), T{});
+                return to_integer(std::begin(this->string), std::end(this->string), T{}).value();
             else if constexpr (std::is_floating_point_v<T>)
-                return to_floating_point(std::begin(this->string), std::end(this->string), T{});
+                return to_floating_point(std::begin(this->string), std::end(this->string), T{}).value();
             else
                 return T(std::begin(this->string), std::end(this->string));
         }
