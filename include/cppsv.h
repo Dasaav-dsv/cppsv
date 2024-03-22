@@ -281,8 +281,8 @@ namespace cppsv {
         // calling "function(std::basic_string_view<value_type>)"
         // Accepts only constant evaluated functions
         static consteval void for_each_field(auto function) noexcept {
-            for (constexpr auto& row : fields)
-                for (constexpr auto& field : row)
+            for (const auto& row : fields)
+                for (const auto& field : row)
                     function(field);
         }
 
@@ -290,7 +290,7 @@ namespace cppsv {
         // calling "function(std::array<std::basic_string_view<value_type>, columns()>)"
         // Accepts only constant evaluated functions
         static consteval void for_each_row(auto function) noexcept {
-            for (constexpr auto& row : fields)
+            for (const auto& row : fields)
                 function(row);
         }
 
