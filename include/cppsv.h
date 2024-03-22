@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <type_traits>
 
+#include "cppsv_common.h"
 #include "convert.h"
 
 #define CPPSV_VIEW_BEGIN inline constexpr cppsv::cppsv_view<std::forward_as_tuple(
@@ -22,21 +23,6 @@ namespace cppsv {
     // MSVC cannot normally expand over array indices 
     template <typename Ref, size_t Size>
     using ref_array = const Ref(&)[Size];
-
-    // Standard cppsv csv header
-    // It is validated before parsing the csv string
-    template <typename CharT>
-    struct cppsv_header {
-        static constexpr CharT value[]{ '"', 'c', 'p', 'p', 's', 'v', '"', '\n' };
-        static constexpr size_t size = std::size(value);
-
-        template <typename T>
-        static constexpr bool has_header(T&& iterable) noexcept {
-            auto begin = std::begin(iterable);
-            return std::distance(begin, std::end(iterable)) >= size
-                && std::equal(std::begin(value), std::end(value), begin);
-        }
-    };
 
     // Helper class for validating and concatenating multiple csv strings 
     template <typename CharT, size_t N>

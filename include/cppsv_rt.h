@@ -6,27 +6,11 @@
 #include <utility>
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <iterator>
 
+#include "cppsv_common.h"
 #include "convert.h"
 
 namespace cppsv {
-    // Standard cppsv csv header
-    // It is validated before parsing the csv string
-    template <typename CharT>
-    struct cppsv_header {
-        static constexpr CharT value[]{ '"', 'c', 'p', 'p', 's', 'v', '"', '\n' };
-        static constexpr size_t size = std::size(value);
-
-        template <typename T>
-        static constexpr bool has_header(T&& iterable) noexcept {
-            auto begin = std::begin(iterable);
-            return std::distance(begin, std::end(iterable)) >= size
-                && std::equal(std::begin(value), std::end(value), begin);
-        }
-    };
-
     template <typename CharT>
     class runtime_cppsv_view {
     public:
