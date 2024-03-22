@@ -93,11 +93,9 @@ namespace cppsv {
         std::basic_string<CharT> data;
         std::vector<std::vector<view_type>> fields; 
     public:
-        explicit runtime_cppsv_view(std::basic_string<CharT> data) noexcept
-            : data(data), fields(calc_fields(this->data)) {}
-        
-        explicit runtime_cppsv_view(std::basic_string<CharT>&& data) noexcept
-            : data(std::move(data)), fields(calc_fields(this->data)) {}
+        template <typename T>
+        explicit runtime_cppsv_view(T&& data) noexcept
+            : data(std::forward<T>(data)), fields(calc_fields(this->data)) {}
 
         // Get the column count in the csv
         // The column count is defined by the number of fields in the first row
@@ -175,6 +173,10 @@ namespace cppsv {
             return std::vector<view_type>{ this->columns() };
         }
     };
-} 
+
+    
+    template <typename T>
+    runtime_cppsv_view(T&& data) -> runtime_cppsv_view<typename std::iterator_traits<T>::value_type>;
+}
 
 #endif /* CPPSV_INCLUDE_CPPSV_RT_H */
