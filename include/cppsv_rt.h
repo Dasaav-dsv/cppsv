@@ -160,17 +160,19 @@ namespace cppsv {
 
         // Iterate over fields
         // while "function(std::basic_string_view<value_type>)" evaluates to "true"
-        const auto& find_field(auto function) const noexcept {
+        auto find_field(auto function) const noexcept {
             for (const auto& row : fields)
                 for (const auto& field : row)
                     if (function(field)) return field;
+            return view_type{};
         }
 
         // Iterate over all rows
         // while "function(std::vector<std::basic_string_view<value_type>>)" evaluates to "true"
-        const auto& find_row(auto function) const noexcept {
+        auto find_row(auto function) const noexcept {
             for (const auto& row : fields) 
                 if (function(row)) return row;
+            return std::vector<view_type>{ this->columns() };
         }
     };
 } 
