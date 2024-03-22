@@ -174,7 +174,6 @@ namespace cppsv {
         }
     };
 
-    
     template <typename T>
     runtime_cppsv_view(T&& data) -> runtime_cppsv_view<typename std::iterator_traits<T>::value_type>;
 }
