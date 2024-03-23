@@ -63,7 +63,7 @@ namespace cppsv {
         static auto calc_fields(const std::basic_string<CharT>& data) noexcept {
             auto data_view = view_type(data);
             // The header is optional at runtime, but may be present
-            bool has_header = cppsv_header<CharT>::has_header(data)
+            bool has_header = cppsv_header<CharT>::has_header(data);
             if (has_header) data_view.remove_prefix(cppsv_header<CharT>::size);
             size_t x = calc_x(data_view);
             size_t y = calc_y(data_view, x);
