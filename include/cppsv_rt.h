@@ -61,10 +61,10 @@ namespace cppsv {
         // A 2D vector of string views of each field in the csv
         // Is not exposed - it can be iterated over, but individual entries are never returned
         static auto calc_fields(const std::basic_string<CharT>& data) noexcept {
-            if (!cppsv_header<CharT>::has_header(data))
-                return std::vector<std::vector<view_type>>();
             auto data_view = view_type(data);
-            data_view.remove_prefix(cppsv_header<CharT>::size);
+            // The header is optional at runtime, but may be present
+            bool has_header = cppsv_header<CharT>::has_header(data)
+            if (has_header) data_view.remove_prefix(cppsv_header<CharT>::size);
             size_t x = calc_x(data_view);
             size_t y = calc_y(data_view, x);
             auto out = std::vector<std::vector<view_type>>(y, std::vector<view_type>(x));
@@ -87,6 +87,8 @@ namespace cppsv {
                     }
                 }
             }
+            // Remove the footer
+            if (has_header) out.pop_back();
             return out;
         }
 
