@@ -98,11 +98,11 @@ namespace cppsv {
             return this->string;
         }
 
-        constexpr auto begin() noexcept {
+        constexpr auto begin() const noexcept {
             return std::begin(this->string);
         }
 
-        constexpr auto end() noexcept {
+        constexpr auto end() const noexcept {
             return std::end(this->string);
         }
 
@@ -297,15 +297,18 @@ namespace cppsv {
         // while "function(std::array<std::basic_string_view<value_type>, columns()>)" evaluates to "true"
         // Accepts only constant evaluated functions, returns the field or empty
         static consteval auto find_row(auto function) noexcept {
+            return _find_row(function, std::make_index_sequence<columns()>());
+        }
+
+        template <size_t...I>
+        static consteval auto _find_row(auto function, std::index_sequence<I...>) noexcept {
             constexpr auto row = [&]{
                 for (const auto& row : fields) 
                     if (function(row)) return row;
                 return std::array<view_type, columns()>{};
             }();
-            return [&]<size_t...Xs>(std::index_sequence<Xs...>) {
-                return std::tuple{ cppsv_field<value_type, std::get<Xs>(row).size() + 1>(
-                    std::get<Xs>(row))... };
-            }(std::make_index_sequence<columns()>{});
+            return std::tuple{ cppsv_field<value_type, std::get<I>(row).size() + 1>(
+                    std::get<I>(row))... };
         }
     };
 }
