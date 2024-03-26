@@ -98,16 +98,16 @@ namespace cppsv {
             return this->string;
         }
 
+        constexpr auto begin() noexcept {
+            return std::begin(this->string);
+        }
+
         constexpr auto begin() const noexcept {
             return std::begin(this->string);
         }
 
-        constexpr auto end() const noexcept {
+        constexpr auto end() noexcept {
             return std::end(this->string);
-        }
-
-        constexpr auto begin() const noexcept {
-            return std::begin(this->string);
         }
 
         constexpr auto end() const noexcept {
