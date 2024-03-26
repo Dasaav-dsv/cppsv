@@ -106,6 +106,14 @@ namespace cppsv {
             return std::end(this->string);
         }
 
+        constexpr auto begin() const noexcept {
+            return std::begin(this->string);
+        }
+
+        constexpr auto end() const noexcept {
+            return std::end(this->string);
+        }
+
         // Try to convert the string into another representation
         // T can be constructed from an iterator range over the characters
         template <typename T>
